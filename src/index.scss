@@ -13,6 +13,14 @@ code {
   monospace;
 }
 
+
+
+
+
+
+
+
+
 .wrapper {
   background: #FFFFFF;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
@@ -21,34 +29,10 @@ code {
   margin: 85px auto;
 }
 
-header {
-  border-bottom: 1px solid #EAEAEA;
- img{
-   margin-right: 16px;
 
- }
-    h3 {
-      margin: 0;
-      font-family: Inter;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 20px;
-      line-height: 24px;
-      text-transform: uppercase;
-    }
-
-  p{
-    font-family: Inter;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    color: #9D9D9D;
-    margin: 0;
-  }
-  }
 
 .content{
+
   h1{
     margin-top: 0;
     margin-bottom: 0px;
@@ -59,50 +43,4 @@ header {
     line-height: 39px;
 
   }
-}
-.cart{
-
-
-  border: 1px solid #F3F3F3;
-  padding: 30px;
-  width: 210px;
-  height: 260px;
-  border-radius: 40px;
-  margin: 20px;
-
-  img{
-    margin-top: -10px;
-  }
-
-  h5{
-    font-family: Inter;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    margin: 14px -5px;
-
-  }
-  span{
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 13px;
-    text-transform: uppercase;
-    color: #BDBDBD;
-
-  }
-  b{
-    font-family: Inter;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 17px;
-
-
-
-    color: #000000;
-  }
-
 }

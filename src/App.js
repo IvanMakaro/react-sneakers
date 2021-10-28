@@ -1,82 +1,48 @@
+import React from 'react'
 import './App.css';
+import Card from "./components/Card/Card";
+import Header from "./components/Header/Header";
+import Basket from "./components/Basket/Basket";
 
 function App() {
+
+    const [card, setCard] = React.useState([])
+    const [openBasket, setOpenBasket] = React.useState(false)
+
+  const onClickBasket=()=>{
+      setOpenBasket(true)
+  }
+
+
+
+    React.useEffect(() => {
+        fetch('https://6175bffe03178d00173da9ca.mockapi.io/items')
+            .then(res => res.json())
+            .then(json => setCard(json))
+    }, [])
+
     return (
         <div className="wrapper clear">
-            <header className='d-flex justify-between align-center p-45'>
-                <div className='d-flex align-center'>
-                    <img width={40} height={40} src='/assets/logo.png'/>
-                    <div>
-                        <h3>React Sneakers</h3>
-                        <p>Магазин лучших кроссовок</p>
-                    </div>
-                </div>
 
 
-                <ul className='d-flex '>
-                    <li>
-                        <img width={18} height={18} src='/assets/cart.svg'/>
-                        <span>1203 руб</span>
-                    </li>
-                    <li>
-                        <img className='mr-35 ml-30' width={18} height={18} src='/assets/heart.svg'/>
-                        <img className='mr-18' width={20} height={18} src='/assets/user.svg'/>
-                    </li>
-                </ul>
+            <Header onClickBasket={onClickBasket}/>
 
-            </header>
+            { openBasket ? <Basket/> : null}
+
 
             <div className='content p-40 '>
                 <h1>Все кроссовки</h1>
-                <div className='d-flex'>
-                    <div className="cart">
-                        <img width={133} height={112} src="/assets/sneakers/1.jpg" alt=""/>
-                        <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-                        <div className='d-flex justify-between align-center'>
-                            <div className='d-flex flex-column '>
-                                <span>Цена: </span>
-                                <b>12 999 руб.</b>
-                            </div>
-                            <img className='cu-p' width={32} height={32} src="/assets/plus.jpg" alt="plus"/>
-                        </div>
-                    </div>
-
-                    <div className="cart">
-                        <img width={133} height={112} src="/assets/sneakers/2.jpg" alt=""/>
-                        <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-                        <div className='d-flex justify-between align-center'>
-                            <div className='d-flex flex-column '>
-                                <span>Цена: </span>
-                                <b>12 999 руб.</b>
-                            </div>
-                            <img className='cu-p' width={32} height={32} src="/assets/plus.jpg" alt="plus"/>
-                        </div>
-                    </div>
-
-                    <div className="cart">
-                        <img width={133} height={112} src="/assets/sneakers/3.jpg" alt=""/>
-                        <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-                        <div className='d-flex justify-between align-center'>
-                            <div className='d-flex flex-column '>
-                                <span>Цена: </span>
-                                <b>12 999 руб.</b>
-                            </div>
-                            <img className='cu-p' width={32} height={32} src="/assets/plus.jpg" alt="plus"/>
-                        </div>
-                    </div>
-                    <div className="cart">
-                        <img width={133} height={112} src="/assets/sneakers/4.jpg" alt=""/>
-                        <h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-                        <div className='d-flex justify-between align-center'>
-                            <div className='d-flex flex-column '>
-                                <span>Цена: </span>
-                                <b>12 999 руб.</b>
-                            </div>
-                            <img className='cu-p' width={32} height={32} src="/assets/plus.jpg" alt="plus"/>
-                        </div>
-                    </div>
+                <div className='d-flex '>
 
 
+                    {card.map((elem, index) =>
+                        <Card
+                            key={index}
+                            name={elem.name}
+                            price={elem.price}
+                            img={elem.img}
+
+                        />)}
 
 
                 </div>
