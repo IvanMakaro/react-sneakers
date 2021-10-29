@@ -33,15 +33,21 @@ code {
     border-radius: 10px;
     text-align: center;
     margin-right: 24px;
-
+    position:relative;
 
     input{
       padding: 13px;
       border: none;
+
     }
     img{
       position: relative;
       top: 3px;
+    }
+    .removeBtn{
+      position: absolute;
+      top: 5px;
+      right:  10px;
     }
   }
 

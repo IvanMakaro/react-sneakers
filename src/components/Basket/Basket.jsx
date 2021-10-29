@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Basket.module.scss'
 
-function Basket({CloseBasket, items = []}) {
+function Basket({CloseBasket, basketState = []}) {
     return (
         <div className={styles.overlay}>
 
@@ -12,7 +12,7 @@ function Basket({CloseBasket, items = []}) {
 
                 <div className={styles.items}>
 
-                    { items.map((elem)=>(
+                    { basketState.map((elem)=>(
                             <div className={styles.cartItem}>
                                 <div className={styles.cartItemImg}>
                                     <img width={70} height={70} src={elem.img} alt="#"/>
