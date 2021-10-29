@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Header.module.scss'
 
-function Header({onClickBasket}) {
+function Header({OpenBasket}) {
     return (
         <header className='d-flex justify-between align-center p-45'>
             <div className='d-flex align-center'>
@@ -12,7 +12,7 @@ function Header({onClickBasket}) {
                 </div>
             </div>
             <ul className='d-flex '>
-                <li onClick={onClickBasket} className='cu-p'>
+                <li onClick={OpenBasket} className='cu-p'>
                     <img width={18} height={18} src='/assets/cart.svg' alt='logo'/>
                     <span>1203 руб</span>
                 </li>

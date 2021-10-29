@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './Card.module.scss'
 
-function Card({onFavorite, img, name, price, onPlus}) {
+function Card({onFavorite, img, name, price, AddCartOnState}) {
 
     const [addCardOnDrawer, setAddCardOnDrawer] = React.useState(false);
 
     const addCardToState = () => {
-        onPlus({img, name, price})
+        AddCartOnState({img, name, price})
         setAddCardOnDrawer(!addCardOnDrawer)
     }
 
@@ -27,7 +27,7 @@ function Card({onFavorite, img, name, price, onPlus}) {
                 <img
                     onClick={addCardToState}
                     className={styles.plusImg} width={32} height={32}
-                    src={addCardOnDrawer ? "/assets/rexona.jpg" : "/assets/plus.jpg"} alt="plus"/>
+                    src={addCardOnDrawer ? "../assets/rexona.jpg" : "../assets/plus.jpg"} alt="plus"/>
             </div>
         </div>
     )

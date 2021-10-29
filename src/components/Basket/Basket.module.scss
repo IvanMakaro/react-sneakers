@@ -1,0 +1,134 @@
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+
+  .drawerBlock {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 385px;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: #FFFFFF;
+    box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+
+  h2 {
+    margin: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+
+    .removeBtn {
+      margin-right: 20px;
+    }
+  }
+
+  .items {
+    flex: 1;
+    margin: 10px 0;
+
+
+    .cartItem {
+      display: flex;
+      background: #FFFFFF;
+      border: 2px solid #F2F2F2;
+      box-sizing: border-box;
+      border-radius: 20px;
+      padding: 20px;
+      margin:  10px 0;
+
+      .cartItemImg {
+        padding-right: 10px;
+        margin-top: -6px;
+
+      }
+
+      p {
+        font-family: Inter;
+        font-size: 14px;
+        line-height: 17px;
+        color: #000000;
+      }
+
+      span {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 17px;
+        color: #000000;
+      }
+    }
+  }
+
+  li {
+    margin: 10px;
+  }
+
+  .p {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    margin: 0px;
+
+  }
+
+  .span {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+  }
+
+  .dashed {
+    border-bottom: 1px dashed #DFDFDF;
+    flex: 1;
+
+  }
+
+  .greenButton {
+    margin-top: 14px;
+    width: 325px;
+    height: 55px;
+    background: #9DD558;
+    border-radius: 18px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+
+    &:hover  {
+      background: #9DD510;
+    }
+    img {
+      position: relative;
+      left: 33px;
+      top: 1.5px;
+      transition: transform 0.2s ease-in-out;
+    }
+    &:hover img {
+      position: relative;
+      transform: translateX(10px);
+      top: 1.5px;
+    }
+  }
+}
