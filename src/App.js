@@ -1,17 +1,22 @@
 import React from 'react'
 import './App.css';
-import Card from "./components/Card/Card";
+import {Route} from "react-router-dom";
 import Header from "./components/Header/Header";
 import Basket from "./components/Basket/Basket";
 import axios from "axios";
+import Home from "./Pages/Home";
+import Favorite from "./Pages/Favorites";
 
 
 function App() {
     const [items, setItems] = React.useState([])
     const [basketState, setBasketState] = React.useState([])
+    const [AddFavoriteCart, setAddFavoriteCart] = React.useState([])
     const [changeSearch, setChangeSearch] = React.useState('')
     const [openBasket, setOpenBasket] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(true)
 
+    console.log(basketState)
 
     const OpenBasket = () => {
         setOpenBasket(true)
@@ -19,63 +24,94 @@ function App() {
     const CloseBasket = () => {
         setOpenBasket(false)
     }
-    const AddCartOnState = (obj) => {
-        axios.post('https://6175bffe03178d00173da9ca.mockapi.io/cart',obj);
-
-
-        setBasketState(prev => [...prev, obj])
-    }
-    const Search = (event) => {
+    const search = (event) => {
         setChangeSearch(event.target.value)
+    }
+
+    const deleteCartOnBasket = (id) => {
+        axios.delete(`https://6175bffe03178d00173da9ca.mockapi.io/cart/${id}`);
+        setBasketState((prev) => prev.filter(elem => elem.id !== id))
+    }
+
+
+    const addCartOnBasket = async (obj) => {
+        try {
+            if (basketState.find((elem) => Number(elem.id) === Number(obj.id))) {
+                setBasketState(prev => prev.filter(elem => Number(elem.id) !== Number(obj.id)))
+                axios.delete(`https://6175bffe03178d00173da9ca.mockapi.io/cart/${obj.id}`);
+            } else {
+                const {data} = await axios.post('https://6175bffe03178d00173da9ca.mockapi.io/cart', obj);
+                setBasketState(prev => [...prev, data])
+            }
+        } catch (e) {
+            alert('Не удалось добавить в корзину')
+        }
+    }
+
+    const addCartOnFavorite = async (obj) => {
+        try {
+            if (AddFavoriteCart.find(elem => elem.id === obj.id)) {
+                axios.delete(`https://6175bffe03178d00173da9ca.mockapi.io/favorites/${obj.id}`);
+                // setAddFavoriteCart((prev) => prev.filter(elem => elem.id !== obj.id))
+            } else {
+                const {data} = await axios.post('https://6175bffe03178d00173da9ca.mockapi.io/favorites', obj);
+                setAddFavoriteCart(prev => [...prev, data])
+            }
+        } catch (e) {
+            alert('Не удалось добавить в список избранное')
+        }
+
     }
 
 
     React.useEffect(() => {
-        axios.get('https://6175bffe03178d00173da9ca.mockapi.io/items')
-            .then(res => setItems(res.data))
-        axios.get('https://6175bffe03178d00173da9ca.mockapi.io/cart')
-            .then(res => setBasketState(res.data) )
+        async function fetchData() {
+            setIsLoading(true)
+
+            const basketResponse = await axios.get('https://6175bffe03178d00173da9ca.mockapi.io/cart')
+            const favoriteResponse = await axios.get('https://6175bffe03178d00173da9ca.mockapi.io/favorites')
+            const itemsResponse = await axios.get('https://6175bffe03178d00173da9ca.mockapi.io/items')
+
+            setBasketState(basketResponse.data)
+            setAddFavoriteCart(favoriteResponse.data)
+            setItems(itemsResponse.data)
+
+            setIsLoading(false)
+        }
+
+        fetchData()
     }, [])
 
     return (
         <div className="wrapper clear">
-
+            {
+                openBasket ? <Basket
+                    basketState={basketState}
+                    CloseBasket={CloseBasket}
+                    deleteCartOnBasket={deleteCartOnBasket}
+                /> : null
+            }
             <Header OpenBasket={OpenBasket}/>
 
-            {openBasket ? <Basket basketState={basketState} CloseBasket={CloseBasket}/> : null}
+            <Route exact path='/'>
+                <Home
+                    isLoading={isLoading}
+                    items={items}
+                    changeSearch={changeSearch}
+                    search={search}
+                    setChangeSearch={setChangeSearch}
+                    addCartOnBasket={addCartOnBasket}
+                    addCartOnFavorite={addCartOnFavorite}
+                    basketState={basketState}
+                /></Route>
 
-            <div className='content p-40  '>
-
-                <div className="title d-flex justify-between ">
-                    <h1>{changeSearch ? `Вы ищите: ${changeSearch}` : 'Все кроссовки'}</h1>
-
-
-                    <div className="input">
-                        <img src="/assets/search.png" alt="search"/>
-                        <input onChange={Search} value={changeSearch} type="text" placeholder='Поиск...'/>
-                        {changeSearch && <img onClick={() => {
-                            setChangeSearch('')
-                        }} className='removeBtn' src="/assets/cross.svg" alt="#"/>}
+            <Route path='/favorite'><Favorite
+                AddFavoriteCart={AddFavoriteCart}
+                addCartOnFavorite={addCartOnFavorite}
+            />
+            </Route>
 
 
-                    </div>
-                </div>
-                <div className='d-flex flex-wrap'>
-
-                    {items
-                        .filter(elem => elem.name.toLowerCase().includes(changeSearch.toLowerCase()))
-                        .map((elem, index) =>
-
-                        <Card
-                            key={index}
-                            name={elem.name}
-                            price={elem.price}
-                            img={elem.img}
-                            AddCartOnState={(obj) => AddCartOnState(obj)}
-                            onFavorite={console.log()}
-                        />)}
-                </div>
-            </div>
         </div>
     );
 }
