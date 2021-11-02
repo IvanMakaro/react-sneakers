@@ -4,9 +4,10 @@ import AppContext from "../context";
 
 
 
-function Favorite({addCartOnFavorite}) {
-const state = React.useContext(AppContext)
+function Favorite({}) {
+const { favoriteCart, addCartOnFavorite} = React.useContext(AppContext)
 
+    console.log(AppContext)
     return(
         <div className='content p-40  '>
 
@@ -18,7 +19,7 @@ const state = React.useContext(AppContext)
 
             <div className='d-flex flex-wrap'>
 
-                {state.favoriteCart
+                {favoriteCart
                     .map((elem, index) =>
 
                         <Card

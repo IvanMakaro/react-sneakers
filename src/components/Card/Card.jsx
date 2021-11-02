@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from './Card.module.scss'
 import ContentLoader from "react-content-loader";
+import AppContext from "../../context";
+
 
 function Card({
-                  basketState,
-                  addCartOnFavorite,
+
                   img,
                   name,
                   price,
@@ -15,20 +16,21 @@ function Card({
                   added = false
               }) {
 
+    const {isItemAdded, addCartOnFavorite} = React.useContext(AppContext)
 
-
-    const [addCardOnDrawer, setAddCardOnDrawer] = React.useState(added);
     const [favoriteCart, setFavoriteCart] = React.useState(favorited)
 
-    const addCardToState = () => {
-        addCartOnBasket({id, img, name, price})
-        setAddCardOnDrawer(!addCardOnDrawer)
-    }
-    const CartOnFavorite = () => {
-        addCartOnFavorite({id, img, name, price})
-        setFavoriteCart(!favoriteCart)
+console.log( id , isItemAdded(id))
 
+    const addCardToState = () => {
+        addCartOnBasket({name, price, img, id})
     }
+
+    const CartOnFavorite = () => {
+        addCartOnFavorite({name, price, img, id})
+        setFavoriteCart(!favoriteCart)
+    }
+
 
     return (
 
@@ -73,7 +75,7 @@ function Card({
                             onClick={addCardToState}
                             className={styles.plusImg} width={32} height={32}
                             src={
-                                addCardOnDrawer ? "../assets/rexona.jpg" :
+                                isItemAdded(id) ? "../assets/rexona.jpg" :
                                     "../assets/plus.jpg"
                             } alt="plus"/>
                     </div>

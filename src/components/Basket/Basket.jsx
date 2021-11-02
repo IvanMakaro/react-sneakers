@@ -2,6 +2,8 @@ import React from 'react'
 import styles from './Basket.module.scss'
 
 function Basket({CloseBasket, basketState = [], deleteCartOnBasket}) {
+
+
     return (
         <div className={styles.overlay}>
 
@@ -10,28 +12,32 @@ function Basket({CloseBasket, basketState = [], deleteCartOnBasket}) {
                     <img onClick={CloseBasket} className={styles.removeBtn} src="/assets/cross.svg" alt="#"/>
                 </h2>
 
+
                 <div className={styles.items}>
-
                     {
-                        basketState.map((elem,index) => (
+                        basketState.length > 0 ?
+                            basketState.map((elem, index) => (
 
-                        <div key={index} className={styles.cartItem}>
-                            <div className={styles.cartItemImg}>
-                                <img width={70} height={70} src={elem.img} alt="#"/>
-                            </div>
-                            <div className={styles.p_span}>
-                                <p>{elem.name}</p>
-                                <span>{elem.price} руб</span>
-                            </div>
-                            <img className={styles.removeBtn} onClick={() => deleteCartOnBasket(elem.id)}
-                                 src="/assets/cross.svg" alt="#"/>
-                        </div>
+                                <div key={index} className={styles.cartItem}>
+                                    <div className={styles.cartItemImg}>
+                                        <img width={70} height={70} src={elem.img} alt="#"/>
+                                    </div>
 
-                    ))}
+                                    <div className={styles.p_span}>
+                                        <p>{elem.name}</p>
+                                        <span>{elem.price} руб</span>
+                                    </div>
+                                    <img className={styles.removeBtn} onClick={() => deleteCartOnBasket(elem.id)}
+                                         src="/assets/cross.svg" alt="#"/>
+                                </div>
+                            )) :
+                            <div className={styles.emptyBasket}>
+                                <img src="/assets/basketIsEmpty.jpg" alt=""/>
+                            </div>}
 
                 </div>
 
-                <div className="cartTotalBlock">
+                {basketState.length > 0 && <div className="cartTotalBlock">
                     <ul>
                         <li className='d-flex '>
                             <p className={styles.p}>Итого: </p>
@@ -47,7 +53,8 @@ function Basket({CloseBasket, basketState = [], deleteCartOnBasket}) {
                     </ul>
                     <button className={styles.greenButton}>Оформить заказ <img src="/assets/vector.svg" alt=""/>
                     </button>
-                </div>
+                </div>}
+
             </div>
         </div>
     )

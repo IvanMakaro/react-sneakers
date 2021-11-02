@@ -2,6 +2,7 @@ import React from 'react'
 import Card from "../components/Card/Card";
 
 
+
 function Home({
                   isLoading,
                   items,
@@ -10,8 +11,11 @@ function Home({
                   setChangeSearch,
                   addCartOnBasket,
                   addCartOnFavorite,
-                  basketState
+
               }) {
+
+
+
     const renderItems = () => {
         const filteredItems = items.filter((elem) =>
             elem.name.toLowerCase().includes(changeSearch.toLowerCase())
@@ -25,8 +29,6 @@ function Home({
                 addCartOnBasket={(obj) => addCartOnBasket(obj)}
                 addCartOnFavorite={(obj) => addCartOnFavorite(obj)}
                 {...elem}
-
-                // added={basketState.some(obj => Number(obj.id) === Number(elem.id))}
             />
         ));
     }

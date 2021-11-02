@@ -34,6 +34,10 @@
     flex: 1;
     margin: 10px 0;
 
+    .emptyBasket {
+      position: relative;
+      top: 250px;
+    }
 
     .cartItem {
       display: flex;
@@ -42,7 +46,7 @@
       box-sizing: border-box;
       border-radius: 20px;
       padding: 20px;
-      margin:  10px 0;
+      margin: 10px 0;
 
       .cartItemImg {
         padding-right: 10px;
@@ -116,15 +120,17 @@
     transition: background-color 0.2s ease-in-out;
 
 
-    &:hover  {
+    &:hover {
       background: #9DD510;
     }
+
     img {
       position: relative;
       left: 33px;
       top: 1.5px;
       transition: transform 0.2s ease-in-out;
     }
+
     &:hover img {
       position: relative;
       transform: translateX(10px);
