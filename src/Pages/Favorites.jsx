@@ -1,9 +1,11 @@
 import React from 'react'
 import Card from "../components/Card/Card";
+import AppContext from "../context";
 
 
 
-function Favorite({AddFavoriteCart,addCartOnFavorite }) {
+function Favorite({addCartOnFavorite}) {
+const state = React.useContext(AppContext)
 
     return(
         <div className='content p-40  '>
@@ -16,8 +18,7 @@ function Favorite({AddFavoriteCart,addCartOnFavorite }) {
 
             <div className='d-flex flex-wrap'>
 
-                {AddFavoriteCart
-                    // .filter(elem => elem.name.toLowerCase().includes(changeSearch.toLowerCase()))
+                {state.favoriteCart
                     .map((elem, index) =>
 
                         <Card

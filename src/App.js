@@ -6,12 +6,15 @@ import Basket from "./components/Basket/Basket";
 import axios from "axios";
 import Home from "./Pages/Home";
 import Favorite from "./Pages/Favorites";
+import AppContext from "../src/context"
+
+
 
 
 function App() {
     const [items, setItems] = React.useState([])
     const [basketState, setBasketState] = React.useState([])
-    const [AddFavoriteCart, setAddFavoriteCart] = React.useState([])
+    const [favoriteCart, setFavoriteCart] = React.useState([])
     const [changeSearch, setChangeSearch] = React.useState('')
     const [openBasket, setOpenBasket] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(true)
@@ -50,12 +53,12 @@ function App() {
 
     const addCartOnFavorite = async (obj) => {
         try {
-            if (AddFavoriteCart.find(elem => elem.id === obj.id)) {
+            if (favoriteCart.find(elem =>Number(elem.id) === Number(obj.id))) {
+                setFavoriteCart((prev) => prev.filter(elem => Number(elem.id) !== Number(obj.id)))
                 axios.delete(`https://6175bffe03178d00173da9ca.mockapi.io/favorites/${obj.id}`);
-                // setAddFavoriteCart((prev) => prev.filter(elem => elem.id !== obj.id))
             } else {
                 const {data} = await axios.post('https://6175bffe03178d00173da9ca.mockapi.io/favorites', obj);
-                setAddFavoriteCart(prev => [...prev, data])
+                setFavoriteCart(prev => [...prev, data])
             }
         } catch (e) {
             alert('Не удалось добавить в список избранное')
@@ -73,7 +76,7 @@ function App() {
             const itemsResponse = await axios.get('https://6175bffe03178d00173da9ca.mockapi.io/items')
 
             setBasketState(basketResponse.data)
-            setAddFavoriteCart(favoriteResponse.data)
+            setFavoriteCart(favoriteResponse.data)
             setItems(itemsResponse.data)
 
             setIsLoading(false)
@@ -83,36 +86,42 @@ function App() {
     }, [])
 
     return (
-        <div className="wrapper clear">
-            {
-                openBasket ? <Basket
-                    basketState={basketState}
-                    CloseBasket={CloseBasket}
-                    deleteCartOnBasket={deleteCartOnBasket}
-                /> : null
-            }
-            <Header OpenBasket={OpenBasket}/>
 
-            <Route exact path='/'>
-                <Home
-                    isLoading={isLoading}
-                    items={items}
-                    changeSearch={changeSearch}
-                    search={search}
-                    setChangeSearch={setChangeSearch}
-                    addCartOnBasket={addCartOnBasket}
-                    addCartOnFavorite={addCartOnFavorite}
-                    basketState={basketState}
-                /></Route>
+       <AppContext.Provider value ={{ items, basketState, favoriteCart,  }}>
 
-            <Route path='/favorite'><Favorite
-                AddFavoriteCart={AddFavoriteCart}
-                addCartOnFavorite={addCartOnFavorite}
-            />
-            </Route>
+           <div className="wrapper clear">
+               {
+                   openBasket ?
+                       <Basket
+                       basketState={basketState}
+                       CloseBasket={CloseBasket}
+                       deleteCartOnBasket={deleteCartOnBasket}
+                   /> : null
+               }
+               <Header OpenBasket={OpenBasket}/>
+
+               <Route exact path='/'>
+                   <Home
+                       isLoading={isLoading}
+                       items={items}
+                       changeSearch={changeSearch}
+                       search={search}
+                       setChangeSearch={setChangeSearch}
+                       addCartOnBasket={addCartOnBasket}
+                       addCartOnFavorite={addCartOnFavorite}
+                       basketState={basketState}
+                   /></Route>
+
+               <Route path='/favorite'>
+
+                   <Favorite
+                   addCartOnFavorite={addCartOnFavorite}
+               />
+               </Route>
 
 
-        </div>
+           </div>
+       </AppContext.Provider>
     );
 }
 

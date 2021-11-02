@@ -2,24 +2,33 @@ import React from 'react'
 import Card from "../components/Card/Card";
 
 
-function Home({isLoading, items, changeSearch, search, setChangeSearch, addCartOnBasket, addCartOnFavorite, basketState}) {
+function Home({
+                  isLoading,
+                  items,
+                  changeSearch,
+                  search,
+                  setChangeSearch,
+                  addCartOnBasket,
+                  addCartOnFavorite,
+                  basketState
+              }) {
+    const renderItems = () => {
+        const filteredItems = items.filter((elem) =>
+            elem.name.toLowerCase().includes(changeSearch.toLowerCase())
+        );
 
+        return (isLoading ? [...Array(7)] : filteredItems).map((elem, index) => (
 
-    const renderItems = ()=>{
+            <Card
+                isLoading={isLoading}
+                key={index}
+                addCartOnBasket={(obj) => addCartOnBasket(obj)}
+                addCartOnFavorite={(obj) => addCartOnFavorite(obj)}
+                {...elem}
 
-        return(
-            isLoading ? [...Array(7)] :
-                items.filter(elem => elem.name.toLowerCase().includes(changeSearch.toLowerCase())))
-            .map((elem, index) =>
-                <Card
-                    isLoading={isLoading}
-                    basketState
-                    key={index}
-                    addCartOnBasket={(obj) => addCartOnBasket(obj)}
-                    addCartOnFavorite={(obj) => addCartOnFavorite(obj)}
-                    {...elem}
-                    added={basketState.some(obj => Number(obj.id) === Number(elem.id))}
-                />)
+                // added={basketState.some(obj => Number(obj.id) === Number(elem.id))}
+            />
+        ));
     }
 
 
@@ -43,7 +52,7 @@ function Home({isLoading, items, changeSearch, search, setChangeSearch, addCartO
             <div className='d-flex flex-wrap'>
 
 
-                { renderItems()}
+                {renderItems()}
             </div>
         </div>
     )
